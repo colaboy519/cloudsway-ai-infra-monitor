@@ -1,0 +1,53 @@
+{
+  "meta": {
+    "lastUpdated": "2026-03-13T15:00:00+08:00",
+    "eventCount": 12,
+    "companyCount": 23
+  },
+  "segments": [
+    { "id": "search", "label": "Search", "color": "#E87D0D" },
+    { "id": "maas", "label": "MaaS", "color": "#27AE60" },
+    { "id": "sandbox", "label": "Sandbox", "color": "#8E24AA" },
+    { "id": "chip", "label": "Chip", "color": "#1B3A5C" },
+    { "id": "model", "label": "Model", "color": "#2E75B6" }
+  ],
+  "events": [
+    {"id":1,"title":"Nscale raises $2B Series C at $14.6B valuation, plans IPO in 2026","source":"Caproasia","url":"https://www.caproasia.com/2026/03/10/uk-ai-infrastructure-startup-nscale-raised-2-billion-in-series-c-funding-at-14-6-billion-valuation-plans-for-ipo-in-2026-launched-in-2024-by-founder-josh-payne-investors-include-sandton-capital/","event_type":"Funding","company":"Nscale","summary":"UK AI infrastructure startup Nscale raised $2B in Series C at $14.6B valuation.","published":"2026-03-10","segment":"maas"},
+    {"id":2,"title":"NVIDIA GTC 2026 preview: 'World-surprising' chip and agentic AI era","source":"Chronicle Journal","url":"http://markets.chroniclejournal.com/chroniclejournal/article/marketminute-2026-3-11-nvidia-gtc-2026-the-world-surprising-chip-and-the-dawn-of-the-agentic-ai-era","event_type":"Product","company":"NVIDIA","summary":"GTC 2026 starts March 16. Jensen Huang to unveil 'world-surprising' chip.","published":"2026-03-11","segment":"chip"},
+    {"id":3,"title":"Nvidia funding AI boom with billions in global startup investments","source":"Invezz","url":"https://invezz.com/news/2026/03/12/how-nvidia-is-financing-the-ai-boom-with-billions-in-investments-in-global-startups/","event_type":"Funding","company":"NVIDIA","summary":"Nvidia invested $30B in OpenAI ($110B round with Amazon, SoftBank).","published":"2026-03-12","segment":"chip"},
+    {"id":4,"title":"US drafts sweeping export control rules requiring permits for all AI chip sales","source":"Bloomberg","url":"https://www.bloomberg.com/news/articles/2026-03-05/us-drafts-rules-for-sweeping-power-over-nvidia-s-global-sales","event_type":"Policy","company":"NVIDIA, AMD","summary":"US Commerce Dept drafted rules requiring government approval for AI chip exports worldwide.","published":"2026-03-05","segment":"chip"},
+    {"id":5,"title":"Baseten raises $300M at $5B valuation, half from Nvidia","source":"NVIDIA Blog","url":"https://blogs.nvidia.com/blog/inference-open-source-models-blackwell-reduce-cost-per-token/","event_type":"Funding","company":"Baseten","summary":"Baseten raised $300M at $5B valuation, more than doubling from $2.1B in Sept.","published":"2026-03-11","segment":"maas"},
+    {"id":6,"title":"CoreWeave securities fraud class action deadline March 13","source":"FinancialContent","url":"https://markets.financialcontent.com/stocks/article/finterra-2026-2-23-the-gpu-debt-wall-a-deep-dive-into-coreweave-crwv-and-the-2026-ai-financing-crisis","event_type":"Legal","company":"CoreWeave","summary":"Lead plaintiff deadline of March 13, 2026 in Masaitis v. CoreWeave securities fraud class action.","published":"2026-03-13","segment":"maas"},
+    {"id":7,"title":"MCP donated to Linux Foundation's Agentic AI Foundation","source":"LLM Stats","url":"https://llm-stats.com/ai-news","event_type":"Tech","company":"Anthropic","summary":"Anthropic donated MCP to the Linux Foundation's new Agentic AI Foundation.","published":"2026-03-11","segment":"sandbox"},
+    {"id":8,"title":"Perplexity Deep Research now runs on Opus 4.6","source":"Releasebot","url":"https://releasebot.io/updates/perplexity-ai","event_type":"Product","company":"Perplexity","summary":"Perplexity Deep Research now runs on Opus 4.6. Pivoted to subscription-first model.","published":"2026-03-12","segment":"search"},
+    {"id":9,"title":"Exa AI opens first European office in Zurich, launches Exa Deep","source":"S-GE","url":"https://www.s-ge.com/en/article/news/20261-ai-exa-arrives-zurich","event_type":"Product","company":"Exa AI","summary":"Exa AI opened Zurich office as first European presence. Unveiled Exa Deep.","published":"2026-03-12","segment":"search"},
+    {"id":10,"title":"Lambda Labs eyes 2026 IPO after $480M raise at $2.5B valuation","source":"HostingJournalist","url":"https://hostingjournalist.com/news/lambda-eyes-2026-ipo-after-480m-raise-following-coreweave%E2%80%99s-debut","event_type":"Funding","company":"Lambda Labs","summary":"Lambda raised $480M Series D at ~$2.5B valuation. Retained MS, JPM, Citi for IPO.","published":"2026-03-11","segment":"maas"},
+    {"id":11,"title":"NVIDIA $20B licensing deal with Groq for inference","source":"TipRanks","url":"https://www.tipranks.com/news/nvidia-amd-and-broadcom-stocks-face-off-as-the-2026-ai-chip-battle-intensifies","event_type":"Partnership","company":"NVIDIA, Groq","summary":"NVIDIA secured a $20B licensing deal with startup Groq.","published":"2026-03-12","segment":"chip"},
+    {"id":12,"title":"AWS Bedrock AgentCore launches with multi-framework agent support","source":"InfoWorld","url":"https://www.infoworld.com/article/4143387/running-agents-with-amazon-bedrock-agentcore.html","event_type":"Product","company":"AWS","summary":"AWS Bedrock AgentCore supports Strands, LangGraph, CrewAI, AutoGen, OpenAI Agents SDK, Google ADK.","published":"2026-03-12","segment":"sandbox"}
+  ],
+  "companies": [
+    {"name":"Perplexity","category":"Search","positioning":"AI answer engine","note":"Deep Research upgraded to Opus 4.6; subscription-first pivot; $400M Snapchat deal","updated":"2026-03-13"},
+    {"name":"Glean","category":"Search","positioning":"Enterprise AI search","note":null,"updated":null},
+    {"name":"Elastic","category":"Search","positioning":"Open-source search engine","note":null,"updated":null},
+    {"name":"Algolia","category":"Search","positioning":"Search-as-a-service","note":null,"updated":null},
+    {"name":"Exa AI","category":"Search","positioning":"AI-native search API","note":"Zurich office opened; Exa Deep search agent update","updated":"2026-03-13"},
+    {"name":"You.com","category":"Search","positioning":"Privacy AI search","note":null,"updated":null},
+    {"name":"Together AI","category":"MaaS","positioning":"Open-source model inference","note":null,"updated":null},
+    {"name":"Baseten","category":"MaaS","positioning":"AI model hosting","note":"$5B valuation, raised $300M, 50% from NVIDIA","updated":"2026-03-13"},
+    {"name":"Modal","category":"MaaS","positioning":"Serverless AI inference","note":"Raising at $2.5B valuation, ~$50M ARR","updated":"2026-03-13"},
+    {"name":"Fireworks AI","category":"MaaS","positioning":"High-performance inference","note":null,"updated":null},
+    {"name":"Lambda Labs","category":"MaaS","positioning":"GPU cloud / inference","note":"$480M Series D, $2.5B valuation, preparing IPO","updated":"2026-03-13"},
+    {"name":"CoreWeave","category":"MaaS","positioning":"GPU cloud infrastructure","note":"Securities fraud class action deadline Mar 13; NVIDIA additional $2B investment","updated":"2026-03-13"},
+    {"name":"Nscale","category":"MaaS","positioning":"UK AI infrastructure","note":"$2B Series C, $14.6B valuation, planning 2026 IPO","updated":"2026-03-13"},
+    {"name":"Groq","category":"MaaS","positioning":"LPU inference chip","note":"$20B licensing deal with NVIDIA","updated":"2026-03-13"},
+    {"name":"LangChain","category":"Sandbox","positioning":"Agent dev framework","note":null,"updated":null},
+    {"name":"CrewAI","category":"Sandbox","positioning":"Multi-agent collaboration","note":null,"updated":null},
+    {"name":"AWS Bedrock","category":"Sandbox","positioning":"Cloud agent platform","note":"AgentCore launched with 6 framework support + full runtime services","updated":"2026-03-13"},
+    {"name":"Google Vertex AI","category":"Sandbox","positioning":"Cloud AI/Agent platform","note":null,"updated":null},
+    {"name":"Azure AI Foundry","category":"Sandbox","positioning":"Cloud agent platform","note":null,"updated":null},
+    {"name":"NVIDIA","category":"Chip","positioning":"GPU/AI chip leader","note":"GTC 2026 Mar 16; $30B OpenAI investment; $20B Groq deal","updated":"2026-03-13"},
+    {"name":"AMD","category":"Chip","positioning":"GPU/AI chip challenger","note":"Affected by US export control draft rules","updated":"2026-03-13"},
+    {"name":"OpenAI","category":"Model","positioning":"GPT model provider","note":null,"updated":null},
+    {"name":"Anthropic","category":"Model","positioning":"Claude model provider","note":"MCP donated to Linux Foundation's Agentic AI Foundation","updated":"2026-03-13"}
+  ]
+}
