@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -172,40 +172,40 @@
     <div class="header">
         <div class="header-left">
             <h1>Cloudsway AI Infra Monitor</h1>
-            <div class="subtitle">Tracking competitive dynamics across the AI infrastructure value chain</div>
+            <div class="subtitle">AI基础设施情报仪表盘 — 实时追踪竞争动态与市场趋势</div>
         </div>
         <div class="freshness">
             <span class="freshness-dot" id="freshness-dot"></span>
-            <span>Updated: <span id="last-updated">--</span></span>
+            <span>更新于: <span id="last-updated">--</span></span>
         </div>
     </div>
 
     <!-- Tabs -->
     <div class="view-tabs">
-        <button class="tab-btn active" data-view="timeline" onclick="switchView('timeline')">Value Chain Timeline</button>
-        <button class="tab-btn" data-view="analytics" onclick="switchView('analytics')">Analytics</button>
+        <button class="tab-btn active" data-view="timeline" onclick="switchView('timeline')">产业链时间线</button>
+        <button class="tab-btn" data-view="analytics" onclick="switchView('analytics')">数据分析</button>
     </div>
 
     <!-- Loading state -->
-    <div class="loading" id="loading-state">Loading data...</div>
-    <div class="error-msg" id="error-state" style="display:none">Failed to load data. Please refresh the page.</div>
+    <div class="loading" id="loading-state">正在加载数据...</div>
+    <div class="error-msg" id="error-state" style="display:none">数据加载失败，请刷新页面重试。</div>
 
     <!-- ===== TIMELINE VIEW ===== -->
     <div class="view-section" id="view-timeline">
         <div class="timeline-controls">
             <div class="filter-group">
-                <label>Time Range</label>
+                <label>时间范围</label>
                 <select id="tl-filter-date" onchange="renderTimeline()">
-                    <option value="7">Past 7 days</option>
-                    <option value="30">Past 30 days</option>
-                    <option value="90">Past 90 days</option>
-                    <option value="all">All</option>
+                    <option value="7">过去7天</option>
+                    <option value="30">过去30天</option>
+                    <option value="90">过去90天</option>
+                    <option value="all">全部</option>
                 </select>
             </div>
             <div class="filter-group">
-                <label>Event Type</label>
+                <label>事件类型</label>
                 <select id="tl-filter-type" onchange="renderTimeline()">
-                    <option value="all">All</option>
+                    <option value="all">全部</option>
                 </select>
             </div>
         </div>
@@ -221,54 +221,54 @@
     <div class="view-section" id="view-analytics">
         <div class="filters">
             <div class="filter-group">
-                <label>Time Range</label>
+                <label>时间范围</label>
                 <select id="filter-date">
-                    <option value="7">Past 7 days</option>
-                    <option value="30">Past 30 days</option>
-                    <option value="90">Past 90 days</option>
-                    <option value="all">All</option>
+                    <option value="7">过去7天</option>
+                    <option value="30">过去30天</option>
+                    <option value="90">过去90天</option>
+                    <option value="all">全部</option>
                 </select>
             </div>
             <div class="filter-group">
-                <label>Company</label>
-                <select id="filter-company"><option value="all">All</option></select>
+                <label>公司</label>
+                <select id="filter-company"><option value="all">全部</option></select>
             </div>
             <div class="filter-group">
-                <label>Event Type</label>
-                <select id="filter-type"><option value="all">All</option></select>
+                <label>事件类型</label>
+                <select id="filter-type"><option value="all">全部</option></select>
             </div>
             <div class="filter-group">
-                <label>Segment</label>
+                <label>产业链环节</label>
                 <select id="filter-segment">
-                    <option value="all">All</option>
+                    <option value="all">全部</option>
                 </select>
             </div>
-            <button class="btn-reset" onclick="resetFilters()">Reset</button>
+            <button class="btn-reset" onclick="resetFilters()">重置</button>
         </div>
 
         <div class="kpi-row">
-            <div class="kpi-card"><div class="label">Total Events</div><div class="value" id="kpi-total">-</div><div class="detail" id="kpi-total-detail"></div></div>
-            <div class="kpi-card"><div class="label">Funding Events</div><div class="value" id="kpi-funding">-</div><div class="detail" id="kpi-funding-detail"></div></div>
-            <div class="kpi-card"><div class="label">Product Launches</div><div class="value" id="kpi-product">-</div><div class="detail" id="kpi-product-detail"></div></div>
-            <div class="kpi-card"><div class="label">Tracked Companies</div><div class="value" id="kpi-companies">-</div><div class="detail" id="kpi-companies-detail"></div></div>
+            <div class="kpi-card"><div class="label">事件总数</div><div class="value" id="kpi-total">-</div><div class="detail" id="kpi-total-detail"></div></div>
+            <div class="kpi-card"><div class="label">融资事件</div><div class="value" id="kpi-funding">-</div><div class="detail" id="kpi-funding-detail"></div></div>
+            <div class="kpi-card"><div class="label">产品发布</div><div class="value" id="kpi-product">-</div><div class="detail" id="kpi-product-detail"></div></div>
+            <div class="kpi-card"><div class="label">追踪公司</div><div class="value" id="kpi-companies">-</div><div class="detail" id="kpi-companies-detail"></div></div>
         </div>
 
         <div class="charts-grid">
-            <div class="chart-card"><h3>Event Type Distribution</h3><canvas id="chart-type"></canvas></div>
-            <div class="chart-card"><h3>Value Chain Segments</h3><canvas id="chart-relevance"></canvas></div>
-            <div class="chart-card"><h3>Event Timeline</h3><canvas id="chart-timeline"></canvas></div>
-            <div class="chart-card"><h3>Company Activity Top 10</h3><canvas id="chart-companies"></canvas></div>
+            <div class="chart-card"><h3>事件类型分布</h3><canvas id="chart-type"></canvas></div>
+            <div class="chart-card"><h3>产业链环节分布</h3><canvas id="chart-relevance"></canvas></div>
+            <div class="chart-card"><h3>事件时间线</h3><canvas id="chart-timeline"></canvas></div>
+            <div class="chart-card"><h3>公司活跃度 Top 10</h3><canvas id="chart-companies"></canvas></div>
         </div>
 
-        <h2 class="section-title">Tracked Companies</h2>
+        <h2 class="section-title">追踪公司状态</h2>
         <div class="company-grid" id="company-grid"></div>
 
         <div class="table-section">
-            <h3>Event Details (<span id="event-count">0</span> events)</h3>
+            <h3>事件明细 (<span id="event-count">0</span>条)</h3>
             <div class="table-scroll">
                 <table class="data-table">
                     <thead>
-                        <tr><th>Date</th><th>Type</th><th>Segment</th><th>Company</th><th>Event</th><th>Source</th></tr>
+                        <tr><th>日期</th><th>类型</th><th>环节</th><th>公司</th><th>事件</th><th>来源</th></tr>
                     </thead>
                     <tbody id="event-tbody"></tbody>
                 </table>
@@ -277,7 +277,7 @@
     </div>
 
     <div class="footer">
-        Cloudsway Intelligence Unit | Data as of <span id="data-date">--</span> | Dashboard auto-updates with daily data
+        Cloudsway Intelligence Unit | 数据截至 <span id="data-date">--</span> | 本仪表盘自动随数据库更新
     </div>
 </div>
 
@@ -319,7 +319,7 @@ async function loadData() {
         const hoursAgo = (Date.now() - updated) / 3600000;
         const dot = document.getElementById('freshness-dot');
         dot.classList.add(hoursAgo < 24 ? 'green' : hoursAgo < 48 ? 'yellow' : 'red');
-        document.getElementById('last-updated').textContent = updated.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+        document.getElementById('last-updated').textContent = updated.toLocaleDateString('zh-CN', { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' });
         document.getElementById('data-date').textContent = META.lastUpdated.split('T')[0];
 
         initAll();
@@ -398,7 +398,7 @@ function renderTimeline() {
     const dates = [...new Set(events.map(e => e.published))].sort();
 
     if (dates.length === 0) {
-        grid.innerHTML = '<div style="padding:40px;text-align:center;color:var(--gray);grid-column:1/-1;">No events found for the selected time range.</div>';
+        grid.innerHTML = '<div style="padding:40px;text-align:center;color:var(--gray);grid-column:1/-1;">所选时间范围内无事件。</div>';
         grid.style.gridTemplateColumns = '1fr';
         return;
     }
@@ -409,10 +409,10 @@ function renderTimeline() {
     let html = '';
 
     // Header row
-    html += '<div class="tl-header">Segment</div>';
+    html += '<div class="tl-header">环节</div>';
     dates.forEach(d => {
         const dt = new Date(d + 'T00:00:00');
-        html += `<div class="tl-header">${dt.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</div>`;
+        html += `<div class="tl-header">${dt.toLocaleDateString('zh-CN', { month: 'short', day: 'numeric' })}</div>`;
     });
 
     // Segment rows
@@ -455,7 +455,7 @@ function openModal(eventId) {
             <span>${e.source}</span>
         </div>
         <div class="modal-summary">${e.summary}</div>
-        <a href="${e.url}" target="_blank" rel="noopener" class="modal-link">Read Source</a>
+        <a href="${e.url}" target="_blank" rel="noopener" class="modal-link">查看原文</a>
     `;
     document.getElementById('modal-backdrop').classList.add('visible');
     document.getElementById('modal-panel').classList.add('visible');
@@ -500,12 +500,12 @@ function resetFilters() {
 
 function renderKPIs() {
     document.getElementById('kpi-total').textContent = filtered.length;
-    document.getElementById('kpi-total-detail').textContent = `${EVENTS.length} total events tracked`;
+    document.getElementById('kpi-total-detail').textContent = `共 ${EVENTS.length} 条历史事件`;
     document.getElementById('kpi-funding').textContent = filtered.filter(e => e.event_type === 'Funding').length;
     document.getElementById('kpi-product').textContent = filtered.filter(e => e.event_type === 'Product').length;
     document.getElementById('kpi-companies').textContent = COMPANIES.length;
     const withUpdates = COMPANIES.filter(c => c.note).length;
-    document.getElementById('kpi-companies-detail').textContent = `${withUpdates} with recent updates`;
+    document.getElementById('kpi-companies-detail').textContent = `${withUpdates} 家有最新动态`;
 }
 
 let charts = {};
@@ -538,7 +538,7 @@ function renderCharts() {
         type: 'bar',
         data: {
             labels: Object.keys(segCounts),
-            datasets: [{ label: 'Events', data: Object.values(segCounts), backgroundColor: Object.keys(segCounts).map(l => { const s = SEGMENTS.find(sg => sg.label === l); return s ? s.color : '#78909C'; }) }]
+            datasets: [{ label: '事件数', data: Object.values(segCounts), backgroundColor: Object.keys(segCounts).map(l => { const s = SEGMENTS.find(sg => sg.label === l); return s ? s.color : '#78909C'; }) }]
         },
         options: { responsive: true, indexAxis: 'y', plugins: { legend: { display: false } }, scales: { x: { beginAtZero: true, ticks: { stepSize: 1 } } } }
     });
@@ -552,7 +552,7 @@ function renderCharts() {
         type: 'bar',
         data: {
             labels: sortedDates,
-            datasets: [{ label: 'Events', data: sortedDates.map(d => dateCounts[d]), backgroundColor: '#2E75B6', borderRadius: 4 }]
+            datasets: [{ label: '事件数', data: sortedDates.map(d => dateCounts[d]), backgroundColor: '#2E75B6', borderRadius: 4 }]
         },
         options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } } }
     });
@@ -566,7 +566,7 @@ function renderCharts() {
         type: 'bar',
         data: {
             labels: sorted.map(s => s[0]),
-            datasets: [{ label: 'Events', data: sorted.map(s => s[1]), backgroundColor: '#1B3A5C', borderRadius: 4 }]
+            datasets: [{ label: '事件数', data: sorted.map(s => s[1]), backgroundColor: '#1B3A5C', borderRadius: 4 }]
         },
         options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } } }
     });
@@ -578,7 +578,7 @@ function renderCompanies() {
         <div class="company-card ${catMap[c.category] || ''}">
             <div class="co-name">${c.name}</div>
             <div class="co-cat">${c.category} &middot; ${c.positioning}</div>
-            ${c.note ? `<div class="co-note">${c.note}</div>` : `<div class="co-note none">No recent updates</div>`}
+            ${c.note ? `<div class="co-note">${c.note}</div>` : `<div class="co-note none">无近期重大更新</div>`}
         </div>
     `).join('');
 }
