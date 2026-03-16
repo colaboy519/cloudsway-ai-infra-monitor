@@ -1,8 +1,8 @@
 {
   "meta": {
-    "lastUpdated": "2026-03-13T15:00:00+08:00",
-    "eventCount": 12,
-    "companyCount": 23
+    "lastUpdated": "2026-03-16T08:00:00+08:00",
+    "eventCount": 18,
+    "companyCount": 25
   },
   "segments": [
     { "id": "search", "label": "Search", "color": "#E87D0D" },
@@ -23,14 +23,20 @@
     {"id":9,"title":"Exa AI opens first European office in Zurich, launches Exa Deep","source":"S-GE","url":"https://www.s-ge.com/en/article/news/20261-ai-exa-arrives-zurich","event_type":"Product","company":"Exa AI","summary":"Exa AI opened Zurich office as first European presence. Unveiled Exa Deep.","published":"2026-03-12","segment":"search"},
     {"id":10,"title":"Lambda Labs eyes 2026 IPO after $480M raise at $2.5B valuation","source":"HostingJournalist","url":"https://hostingjournalist.com/news/lambda-eyes-2026-ipo-after-480m-raise-following-coreweave%E2%80%99s-debut","event_type":"Funding","company":"Lambda Labs","summary":"Lambda raised $480M Series D at ~$2.5B valuation. Retained MS, JPM, Citi for IPO.","published":"2026-03-11","segment":"maas"},
     {"id":11,"title":"NVIDIA $20B licensing deal with Groq for inference","source":"TipRanks","url":"https://www.tipranks.com/news/nvidia-amd-and-broadcom-stocks-face-off-as-the-2026-ai-chip-battle-intensifies","event_type":"Partnership","company":"NVIDIA, Groq","summary":"NVIDIA secured a $20B licensing deal with startup Groq.","published":"2026-03-12","segment":"chip"},
-    {"id":12,"title":"AWS Bedrock AgentCore launches with multi-framework agent support","source":"InfoWorld","url":"https://www.infoworld.com/article/4143387/running-agents-with-amazon-bedrock-agentcore.html","event_type":"Product","company":"AWS","summary":"AWS Bedrock AgentCore supports Strands, LangGraph, CrewAI, AutoGen, OpenAI Agents SDK, Google ADK.","published":"2026-03-12","segment":"sandbox"}
+    {"id":12,"title":"AWS Bedrock AgentCore launches with multi-framework agent support","source":"InfoWorld","url":"https://www.infoworld.com/article/4143387/running-agents-with-amazon-bedrock-agentcore.html","event_type":"Product","company":"AWS","summary":"AWS Bedrock AgentCore supports Strands, LangGraph, CrewAI, AutoGen, OpenAI Agents SDK, Google ADK.","published":"2026-03-12","segment":"sandbox"},
+    {"id":13,"title":"NVIDIA invests $2B in Nebius Group at 8.3% stake","source":"Bloomberg","url":"https://www.bloomberg.com","event_type":"Funding","company":"Nebius","summary":"Nvidia invested $2B in Nebius Group (8.3% stake), planning to deploy 5GW+ of Nvidia systems. Nebius planning 300MW campus in New Jersey.","published":"2026-03-12","segment":"maas"},
+    {"id":14,"title":"Exa AI raises $85M Series B led by Benchmark","source":"Exa Blog","url":"https://exa.ai/blog","event_type":"Funding","company":"Exa AI","summary":"Exa AI raised $85M Series B led by Benchmark, positioning as AI-native search engine built for AI agents.","published":"2026-03-04","segment":"search"},
+    {"id":15,"title":"Cerebras raises $1B H-round at $23B valuation, plans Q2 IPO","source":"Crunchbase","url":"https://www.crunchbase.com/organization/cerebras-systems","event_type":"Funding","company":"Cerebras","summary":"Cerebras raised $1B H-round at $23B valuation. Planning Q2 2026 IPO as the first pure-play AI chip company to list publicly.","published":"2026-03-01","segment":"chip"},
+    {"id":16,"title":"Anthropic flagged as DoD supply chain risk over ethics stance","source":"TechCrunch","url":"https://techcrunch.com","event_type":"Policy","company":"Anthropic","summary":"US Defense Dept flagged Anthropic as supply chain risk after Anthropic refused to allow its tech for mass surveillance and autonomous weapons. 30+ OpenAI/Google employees signed in solidarity.","published":"2026-03-14","segment":"model"},
+    {"id":17,"title":"Glean reaches $200M ARR, doubles revenue in 9 months","source":"TechCrunch","url":"https://techcrunch.com","event_type":"Milestone","company":"Glean","summary":"Glean hit $200M ARR, doubling revenue in 9 months. Company pivoting to AI middleware/agent layer with real-time voice and agent sandbox features.","published":"2026-02-17","segment":"search"},
+    {"id":18,"title":"Modal Labs in fundraising talks at $2.5B valuation with ~$50M ARR","source":"TechCrunch","url":"https://techcrunch.com","event_type":"Funding","company":"Modal","summary":"Modal Labs in fundraising discussions at $2.5B valuation with ~$50M ARR, signaling growing momentum for serverless AI inference.","published":"2026-02-11","segment":"maas"}
   ],
   "companies": [
     {"name":"Perplexity","category":"Search","positioning":"AI answer engine","note":"Deep Research upgraded to Opus 4.6; subscription-first pivot; $400M Snapchat deal","updated":"2026-03-13"},
-    {"name":"Glean","category":"Search","positioning":"Enterprise AI search","note":null,"updated":null},
+    {"name":"Glean","category":"Search","positioning":"Enterprise AI search","note":"$200M ARR milestone, doubled in 9 months; pivoting to AI middleware/agent layer with real-time voice and agent sandbox","updated":"2026-03-16"},
     {"name":"Elastic","category":"Search","positioning":"Open-source search engine","note":null,"updated":null},
     {"name":"Algolia","category":"Search","positioning":"Search-as-a-service","note":null,"updated":null},
-    {"name":"Exa AI","category":"Search","positioning":"AI-native search API","note":"Zurich office opened; Exa Deep search agent update","updated":"2026-03-13"},
+    {"name":"Exa AI","category":"Search","positioning":"AI-native search API","note":"$85M Series B (Benchmark领投); Zurich office opened; Exa Deep search agent update","updated":"2026-03-16"},
     {"name":"You.com","category":"Search","positioning":"Privacy AI search","note":null,"updated":null},
     {"name":"Together AI","category":"MaaS","positioning":"Open-source model inference","note":null,"updated":null},
     {"name":"Baseten","category":"MaaS","positioning":"AI model hosting","note":"$5B valuation, raised $300M, 50% from NVIDIA","updated":"2026-03-13"},
@@ -45,9 +51,11 @@
     {"name":"AWS Bedrock","category":"Sandbox","positioning":"Cloud agent platform","note":"AgentCore launched with 6 framework support + full runtime services","updated":"2026-03-13"},
     {"name":"Google Vertex AI","category":"Sandbox","positioning":"Cloud AI/Agent platform","note":null,"updated":null},
     {"name":"Azure AI Foundry","category":"Sandbox","positioning":"Cloud agent platform","note":null,"updated":null},
-    {"name":"NVIDIA","category":"Chip","positioning":"GPU/AI chip leader","note":"GTC 2026 Mar 16; $30B OpenAI investment; $20B Groq deal","updated":"2026-03-13"},
+    {"name":"NVIDIA","category":"Chip","positioning":"GPU/AI chip leader","note":"GTC 2026 Mar 16; $30B OpenAI investment; $20B Groq deal; $2B Nebius investment (8.3% stake)","updated":"2026-03-16"},
     {"name":"AMD","category":"Chip","positioning":"GPU/AI chip challenger","note":"Affected by US export control draft rules","updated":"2026-03-13"},
     {"name":"OpenAI","category":"Model","positioning":"GPT model provider","note":null,"updated":null},
-    {"name":"Anthropic","category":"Model","positioning":"Claude model provider","note":"MCP donated to Linux Foundation's Agentic AI Foundation","updated":"2026-03-13"}
+    {"name":"Anthropic","category":"Model","positioning":"Claude model provider","note":"MCP donated to Linux Foundation's Agentic AI Foundation; flagged as DoD supply chain risk over ethics stance (refused surveillance/autonomous weapons use)","updated":"2026-03-16"},
+    {"name":"Nebius","category":"MaaS","positioning":"AI cloud / neocloud","note":"$2B NVIDIA investment (8.3% stake); 300MW campus planned in New Jersey; deploying 5GW+ of NVIDIA systems","updated":"2026-03-16"},
+    {"name":"Cerebras","category":"Chip","positioning":"AI chip / wafer-scale engine","note":"$1B H-round, $23B valuation; Q2 2026 IPO planned; first pure-play AI chip company to go public","updated":"2026-03-16"}
   ]
 }
