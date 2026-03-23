@@ -1,0 +1,76 @@
+{
+  "name": "GitHub Collector",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [{ "field": "days", "daysInterval": 1 }]
+        }
+      },
+      "id": "schedule-trigger",
+      "name": "Daily",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [0, 0]
+    },
+    {
+      "parameters": {
+        "url": "=https://api.github.com/search/repositories?q=created:>{{ $now.minus(7, 'days').toFormat('yyyy-MM-dd') }}+topic:machine-learning+topic:llm&sort=stars&order=desc&per_page=30",
+        "options": {
+          "response": { "response": { "fullResponse": false } }
+        },
+        "headerParameters": {
+          "parameters": [
+            { "name": "Accept", "value": "application/vnd.github.v3+json" },
+            { "name": "User-Agent", "value": "ai-infra-monitor" }
+          ]
+        }
+      },
+      "id": "github-search",
+      "name": "GitHub Search API",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [220, 0]
+    },
+    {
+      "parameters": {
+        "jsCode": "const repos = $input.item.json.items || [];\nconst crypto = require('crypto');\nconst now = Date.now();\n\nreturn repos\n  .map(repo => {\n    const createdAt = new Date(repo.created_at);\n    const daysOld = Math.max(1, (now - createdAt.getTime()) / (1000 * 60 * 60 * 24));\n    const velocity = repo.stargazers_count / daysOld;\n    const title = `${repo.full_name}: ${repo.description || 'No description'}`;\n    const content_hash = crypto.createHash('sha256')\n      .update(`${repo.full_name.toLowerCase()}|github`)\n      .digest('hex');\n\n    return {\n      json: {\n        source: 'github',\n        source_category: 'open_source',\n        title: title,\n        url: repo.html_url,\n        raw_content: repo.description || '',\n        entities: [],\n        metadata: {\n          full_name: repo.full_name,\n          stars: repo.stargazers_count,\n          forks: repo.forks_count,\n          language: repo.language,\n          topics: repo.topics || [],\n          velocity: Math.round(velocity * 100) / 100,\n          created_at: repo.created_at,\n          updated_at: repo.updated_at\n        },\n        collected_at: new Date().toISOString(),\n        content_hash: content_hash\n      }\n    };\n  })\n  .filter(r => r.json.metadata.velocity > 10 || r.json.metadata.stars > 100);"
+      },
+      "id": "transform",
+      "name": "Transform & Filter by Velocity",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [440, 0]
+    },
+    {
+      "parameters": {
+        "operation": "insert",
+        "table": "raw_signals",
+        "columns": "source,source_category,title,url,raw_content,entities,metadata,collected_at,content_hash",
+        "options": { "onConflict": "doNothing" }
+      },
+      "id": "postgres-insert",
+      "name": "Insert into raw_signals",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [660, 0],
+      "credentials": {
+        "postgres": { "id": "CONFIGURE_ME", "name": "AI Infra Monitor DB" }
+      }
+    }
+  ],
+  "connections": {
+    "Daily": {
+      "main": [[ { "node": "GitHub Search API", "type": "main", "index": 0 } ]]
+    },
+    "GitHub Search API": {
+      "main": [[ { "node": "Transform & Filter by Velocity", "type": "main", "index": 0 } ]]
+    },
+    "Transform & Filter by Velocity": {
+      "main": [[ { "node": "Insert into raw_signals", "type": "main", "index": 0 } ]]
+    }
+  },
+  "settings": { "timezone": "Asia/Shanghai" },
+  "active": false,
+  "_comment": "TEMPLATE: Import into n8n, configure Postgres credentials. Also run with topic:ai, topic:deep-learning, topic:transformers searches."
+}

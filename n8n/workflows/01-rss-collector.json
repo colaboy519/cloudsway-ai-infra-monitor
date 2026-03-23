@@ -1,0 +1,87 @@
+{
+  "name": "RSS Collector",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [{ "field": "hours", "hoursInterval": 6 }]
+        }
+      },
+      "id": "schedule-trigger",
+      "name": "Every 6 Hours",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [0, 0]
+    },
+    {
+      "parameters": {
+        "url": "https://techcrunch.com/category/artificial-intelligence/feed/"
+      },
+      "id": "rss-techcrunch",
+      "name": "TechCrunch AI RSS",
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1,
+      "position": [220, -100]
+    },
+    {
+      "parameters": {
+        "url": "https://venturebeat.com/category/ai/feed/"
+      },
+      "id": "rss-venturebeat",
+      "name": "VentureBeat AI RSS",
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1,
+      "position": [220, 100]
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\nconst crypto = require('crypto');\n\nreturn items.map(item => {\n  const title = item.json.title || '';\n  const url = item.json.link || '';\n  const content_hash = crypto.createHash('sha256')\n    .update(`${title.toLowerCase().trim()}|rss`)\n    .digest('hex');\n\n  return {\n    json: {\n      source: 'rss',\n      source_category: 'news',\n      title: title,\n      url: url,\n      raw_content: item.json.contentSnippet || item.json.content || title,\n      entities: [],\n      metadata: {\n        feed: item.json.feedUrl || '',\n        author: item.json.creator || '',\n        published: item.json.pubDate || ''\n      },\n      collected_at: item.json.isoDate || new Date().toISOString(),\n      content_hash: content_hash\n    }\n  };\n});"
+      },
+      "id": "transform-signals",
+      "name": "Transform to Signal Schema",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [660, 0]
+    },
+    {
+      "parameters": {
+        "operation": "insert",
+        "table": "raw_signals",
+        "columns": "source,source_category,title,url,raw_content,entities,metadata,collected_at,content_hash",
+        "options": {
+          "onConflict": "doNothing"
+        }
+      },
+      "id": "postgres-insert",
+      "name": "Insert into raw_signals",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [880, 0],
+      "credentials": {
+        "postgres": { "id": "CONFIGURE_ME", "name": "AI Infra Monitor DB" }
+      }
+    }
+  ],
+  "connections": {
+    "Every 6 Hours": {
+      "main": [
+        [
+          { "node": "TechCrunch AI RSS", "type": "main", "index": 0 },
+          { "node": "VentureBeat AI RSS", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "TechCrunch AI RSS": {
+      "main": [[ { "node": "Transform to Signal Schema", "type": "main", "index": 0 } ]]
+    },
+    "VentureBeat AI RSS": {
+      "main": [[ { "node": "Transform to Signal Schema", "type": "main", "index": 0 } ]]
+    },
+    "Transform to Signal Schema": {
+      "main": [[ { "node": "Insert into raw_signals", "type": "main", "index": 0 } ]]
+    }
+  },
+  "settings": { "timezone": "Asia/Shanghai" },
+  "active": false,
+  "_comment": "TEMPLATE: Import into n8n, configure Postgres credentials, add more RSS feeds as needed"
+}

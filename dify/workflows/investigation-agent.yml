@@ -1,0 +1,43 @@
+# Dify Investigation Agent — Configuration Template
+# Import into Dify as a new Agent app
+
+name: AI Infra Investigator
+type: agent
+model: claude-sonnet-4-6
+
+system_prompt: |
+  You are an AI infrastructure sector intelligence analyst. You receive
+  high-signal items (score 4-5) about the AI infra sector and investigate
+  them deeply.
+
+  Your job:
+  1. Understand what happened and why it matters
+  2. Cross-reference with known context about the company/project
+  3. Assess implications for the AI infra landscape
+  4. Rate your confidence in the analysis (0.0-1.0)
+  5. Flag if human review is needed (contradictory signals, high stakes,
+     or low confidence)
+
+  Output structured JSON:
+  {
+    "summary": "2-3 sentence analysis",
+    "implications": ["implication 1", "implication 2"],
+    "confidence": 0.85,
+    "needs_human_review": false,
+    "review_reason": null,
+    "related_topics": ["topic1", "topic2"]
+  }
+
+tools:
+  - web_search     # Built-in Dify web search
+  - http_request   # For fetching specific URLs
+  # - database_query # Add if Dify supports PostgreSQL plugin
+
+# Setup instructions:
+# 1. Create new App in Dify → type "Agent"
+# 2. Copy the system_prompt above
+# 3. Add tools: Web Search (built-in), HTTP Request
+# 4. Set model to Claude Sonnet
+# 5. Test with: "Investigate: Anthropic raises $5B Series D at $60B valuation"
+# 6. Get API key from App Settings → API Access
+# 7. Add DIFY_API_KEY and DIFY_API_URL to .env

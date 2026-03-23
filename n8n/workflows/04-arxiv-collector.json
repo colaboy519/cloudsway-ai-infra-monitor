@@ -1,0 +1,70 @@
+{
+  "name": "arXiv Collector",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [{ "field": "days", "daysInterval": 1 }]
+        }
+      },
+      "id": "schedule-trigger",
+      "name": "Daily",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [0, 0]
+    },
+    {
+      "parameters": {
+        "url": "http://export.arxiv.org/api/query?search_query=cat:cs.AI+OR+cat:cs.CL+OR+cat:cs.LG&start=0&max_results=30&sortBy=submittedDate&sortOrder=descending",
+        "options": {
+          "response": { "response": { "responseFormat": "text" } }
+        }
+      },
+      "id": "arxiv-api",
+      "name": "arXiv API",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [220, 0]
+    },
+    {
+      "parameters": {
+        "jsCode": "const xml = $input.item.json.data || $input.item.json.body || '';\nconst crypto = require('crypto');\nconst entries = [];\nconst entryRegex = /<entry>([\\s\\S]*?)<\\/entry>/g;\nlet match;\nwhile ((match = entryRegex.exec(xml)) !== null) {\n  const entry = match[1];\n  const getTag = (tag) => {\n    const m = entry.match(new RegExp('<' + tag + '[^>]*>([\\\\s\\\\S]*?)</' + tag + '>', 's'));\n    return m ? m[1].trim() : '';\n  };\n  const title = getTag('title').replace(/\\s+/g, ' ');\n  const abstract = getTag('summary').replace(/\\s+/g, ' ').substring(0, 500);\n  const published = getTag('published');\n  const idTag = getTag('id');\n  const arxivId = idTag.replace('http://arxiv.org/abs/', '');\n  const authors = [];\n  const authorRegex = /<author>\\s*<name>([\\s\\S]*?)<\\/name>/g;\n  let am;\n  while ((am = authorRegex.exec(entry)) !== null) authors.push(am[1].trim());\n  const categories = [];\n  const catRegex = /<category[^>]*term=\"([^\"]+)\"/g;\n  let cm;\n  while ((cm = catRegex.exec(entry)) !== null) categories.push(cm[1]);\n  const content_hash = crypto.createHash('sha256')\n    .update(arxivId.toLowerCase() + '|arxiv')\n    .digest('hex');\n  entries.push({\n    json: {\n      source: 'arxiv',\n      source_category: 'paper',\n      title: title,\n      url: 'https://arxiv.org/abs/' + arxivId,\n      raw_content: abstract,\n      entities: [],\n      metadata: { arxiv_id: arxivId, authors: authors, categories: categories, published: published },\n      collected_at: published || new Date().toISOString(),\n      content_hash: content_hash\n    }\n  });\n}\nreturn entries;"
+      },
+      "id": "parse-xml",
+      "name": "Parse arXiv XML",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [440, 0]
+    },
+    {
+      "parameters": {
+        "operation": "insert",
+        "table": "raw_signals",
+        "columns": "source,source_category,title,url,raw_content,entities,metadata,collected_at,content_hash",
+        "options": { "onConflict": "doNothing" }
+      },
+      "id": "postgres-insert",
+      "name": "Insert into raw_signals",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [660, 0],
+      "credentials": {
+        "postgres": { "id": "CONFIGURE_ME", "name": "AI Infra Monitor DB" }
+      }
+    }
+  ],
+  "connections": {
+    "Daily": {
+      "main": [[ { "node": "arXiv API", "type": "main", "index": 0 } ]]
+    },
+    "arXiv API": {
+      "main": [[ { "node": "Parse arXiv XML", "type": "main", "index": 0 } ]]
+    },
+    "Parse arXiv XML": {
+      "main": [[ { "node": "Insert into raw_signals", "type": "main", "index": 0 } ]]
+    }
+  },
+  "settings": { "timezone": "Asia/Shanghai" },
+  "active": false,
+  "_comment": "TEMPLATE: Import into n8n, configure Postgres credentials. Fetches 30 most recent papers from cs.AI, cs.CL, cs.LG."
+}
