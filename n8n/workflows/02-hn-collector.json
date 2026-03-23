@@ -1,0 +1,189 @@
+{
+  "name": "02 — Hacker News Collector",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hoursInterval": 6
+            }
+          ]
+        }
+      },
+      "id": "node-schedule-trigger",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "url": "https://hacker-news.firebaseio.com/v0/topstories.json",
+        "options": {}
+      },
+      "id": "node-fetch-top-stories",
+      "name": "Fetch Top Stories",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Take first 30 IDs and emit one item per ID\nconst ids = $input.item.json;\nconst top30 = Array.isArray(ids) ? ids.slice(0, 30) : [];\n\nreturn top30.map(id => ({ json: { id } }));"
+      },
+      "id": "node-slice-ids",
+      "name": "Slice First 30 IDs",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [680, 300]
+    },
+    {
+      "parameters": {
+        "url": "=https://hacker-news.firebaseio.com/v0/item/{{ $json.id }}.json",
+        "options": {}
+      },
+      "id": "node-fetch-item",
+      "name": "Fetch Item Details",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [900, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "condition-score",
+              "leftValue": "={{ $json.score }}",
+              "rightValue": 50,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "node-filter-score",
+      "name": "Filter Score > 50",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [1120, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "const item = $input.item.json;\nconst title = item.title || '';\nconst url = item.url || `https://news.ycombinator.com/item?id=${item.id}`;\nconst crypto = require('crypto');\nconst content_hash = crypto.createHash('sha256')\n  .update(`${title.toLowerCase().trim()}|hn`)\n  .digest('hex');\n\nreturn {\n  json: {\n    source: 'hackernews',\n    source_category: 'social',\n    title: title,\n    url: url,\n    raw_content: title,\n    entities: [],\n    metadata: {\n      hn_id: item.id,\n      score: item.score,\n      comments: item.descendants || 0,\n      by: item.by\n    },\n    collected_at: new Date(item.time * 1000).toISOString(),\n    content_hash: content_hash\n  }\n};"
+      },
+      "id": "node-transform-signal",
+      "name": "Transform to Signal Schema",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1340, 220]
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "INSERT INTO raw_signals (source, source_category, title, url, raw_content, entities, metadata, collected_at, content_hash)\nVALUES (\n  '{{ $json.source }}',\n  '{{ $json.source_category }}',\n  '{{ $json.title }}',\n  '{{ $json.url }}',\n  '{{ $json.raw_content }}',\n  '{{ JSON.stringify($json.entities) }}'::jsonb,\n  '{{ JSON.stringify($json.metadata) }}'::jsonb,\n  '{{ $json.collected_at }}'::timestamptz,\n  '{{ $json.content_hash }}'\n)\nON CONFLICT (url) DO NOTHING;",
+        "options": {}
+      },
+      "id": "node-insert-postgres",
+      "name": "Insert into raw_signals",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [1560, 220],
+      "credentials": {
+        "postgres": {
+          "id": "postgres-ai-infra",
+          "name": "AI Infra Monitor Postgres"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Fetch Top Stories",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Top Stories": {
+      "main": [
+        [
+          {
+            "node": "Slice First 30 IDs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Slice First 30 IDs": {
+      "main": [
+        [
+          {
+            "node": "Fetch Item Details",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Item Details": {
+      "main": [
+        [
+          {
+            "node": "Filter Score > 50",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter Score > 50": {
+      "main": [
+        [
+          {
+            "node": "Transform to Signal Schema",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "Transform to Signal Schema": {
+      "main": [
+        [
+          {
+            "node": "Insert into raw_signals",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2026-03-23T00:00:00.000Z",
+  "versionId": "1"
+}
