@@ -141,6 +141,7 @@ services:
       - "${N8N_PORT:-5678}:5678"
     volumes:
       - n8n-data:/home/node/.n8n
+      - ~/shared/vault:/shared/vault  # Obsidian vault for briefing/digest writes
     depends_on:
       postgres:
         condition: service_healthy
@@ -644,12 +645,12 @@ return { json: { telegram_message: msg, obsidian_content: msg.replace(/\*/g, '**
 
 ```bash
 # Writes to the user's Obsidian vault at ~/shared/vault/
-cat > ~/shared/vault/projects/ai-infra-monitor/briefings/{{$now.format('YYYY-MM-DD')}}-briefing.md << 'BRIEFING'
+cat > /shared/vault/projects/ai-infra-monitor/briefings/{{$now.format('YYYY-MM-DD')}}-briefing.md << 'BRIEFING'
 {{$json.obsidian_content}}
 BRIEFING
 ```
 
-Or use the "Write Binary File" node to write directly to `~/shared/vault/projects/ai-infra-monitor/briefings/YYYY-MM-DD-briefing.md`. Ensure the directory exists (create in Task 1 setup).
+Or use the "Write Binary File" node to write directly to `/shared/vault/projects/ai-infra-monitor/briefings/YYYY-MM-DD-briefing.md` (container path, mapped to `~/shared/vault/` on host via docker-compose bind mount). Ensure the directory exists on the host before starting.
 
 - [ ] **Step 3: Test manually**
 
@@ -1147,7 +1148,7 @@ return { json: { content: note, filename: `${weekEnd}-weekly-digest.md` } };
 6. **Execute Command Node** — Write to Obsidian vault:
 
 ```bash
-cat > ~/shared/vault/projects/ai-infra-monitor/digests/{{$json.filename}} << 'EOF'
+cat > /shared/vault/projects/ai-infra-monitor/digests/{{$json.filename}} << 'EOF'
 {{$json.content}}
 EOF
 ```
@@ -1155,7 +1156,7 @@ EOF
 - [ ] **Step 2: Test manually**
 
 Trigger the workflow. Verify:
-- Obsidian note created at `~/shared/vault/projects/ai-infra-monitor/digests/`
+- Obsidian note created at `~/shared/vault/projects/ai-infra-monitor/digests/` (host path)
 - Contains trend synthesis and signal breakdown table
 
 - [ ] **Step 3: Export and commit**
