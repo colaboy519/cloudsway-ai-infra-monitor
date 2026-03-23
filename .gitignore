@@ -1,0 +1,6 @@
+.env
+n8n/data/
+dify/data/
+postgres-data/
+*.pyc
+__pycache__/
